@@ -12,7 +12,7 @@ def wikitionary_case_singular_plural_nouns(case_row):
 	return [tds[0].get_text().strip(), tds[1].get_text().strip()]
 
 
-def wiktionary_source(cases, number, verb):
+def wiktionary_source(cases, number, noun):
 	url = "https://de.wiktionary.org/wiki/" + noun
 	document = urlopen(url)
 	print("downloading...." + url)

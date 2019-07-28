@@ -2,8 +2,8 @@
   <div>
     <div @click="gotoWord('prev')">&lt;&mdash;</div>
     <div @click="gotoWord('next')">&mdash;&gt;</div>
-    <input type="text" v-model="currentWord" />
-    <input type="text" :value="currentWord" />
+    <input type="text" v-model="currentWordOfModel" />
+    <input type="text" :value="currentWordOfModel" />
     <div @click="gotoWord('prev')">&lt;&mdash;</div>
     <div @click="gotoWord('next')">&mdash;&gt;</div>
     <textarea v-model="wordsModel"></textarea>
@@ -17,12 +17,15 @@ export default {
   props: {
     words: {
       type: Array
+    },
+    currentWord: {
+      type: String
     }
   },
-  mounted() {
+  created() {
     // eslint-disable-next-line
-    console.log(this.words);
-    this.currentWord = this.words[1]
+    console.log("We're in the component");
+    this.currentWordOfModel = this.currentWord == undefined ? this.words[0] : this.currentWord;
     var wordData = "";
     this.words.forEach(element => {
       wordData += element + "\n"
@@ -34,7 +37,7 @@ export default {
       var word = null;
       var wordCount = this.words.length;
 
-      var currentIndex = this.words.indexOf(this.currentWord);
+      var currentIndex = this.words.indexOf(this.currentWordOfModel);
 
       if (currentIndex == -1) {
         return;
@@ -51,14 +54,14 @@ export default {
         }
         word = this.words[currentIndex - 1];
       }
-
+      this.currentWordOfModel = word;
       this.$router.push({ name: 'word-edit', params: { word: word }})
     }
   },
   data: function() {
     return {
       wordsModel: "",
-      currentWord: null
+      currentWordOfModel: null
     }
   }
 }

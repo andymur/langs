@@ -7,11 +7,26 @@
       <input type="text" :value="currentWordOfModel" />
     </div>
     <div id="wortart-buttons">
-      <input type="button" value="Substantiv" v-bind:class="selectedWordArt(currentWord, 'substantiv')" />
-      <input type="button" value="Verb" v-bind:class="selectedWordArt(currentWord, 'verb')"/>
-      <input type="button" value="Adjektiv" v-bind:class="selectedWordArt(currentWord, 'adjektiv')"/>
-      <input type="button" value="Pronomenon" v-bind:class="selectedWordArt(currentWord, 'pronomenon')"/>
-      <input type="button" value="Präposition" v-bind:class="selectedWordArt(currentWord, 'präposition')"/>
+      <input type="button" value="Substantiv" 
+        id="substantiv"
+        @click="selectWordArt($event)" 
+        v-bind:class="selectedWordArt('substantiv')" />
+      <input type="button" value="Verb" 
+        id="verb"
+        @click="selectWordArt($event)" 
+        v-bind:class="selectedWordArt('verb')"/>
+      <input type="button" value="Adjektiv" 
+        id="adjektiv"
+        @click="selectWordArt($event)" 
+        v-bind:class="selectedWordArt('adjektiv')"/>
+      <input type="button" value="Pronomenon" 
+        id="pronomenon"
+        @click="selectWordArt($event)" 
+        v-bind:class="selectedWordArt('pronomenon')"/>
+      <input type="button" value="Präposition" 
+        id="praeposition"
+        @click="selectWordArt($event)"  
+        v-bind:class="selectedWordArt('praeposition')"/>
     </div>
     <div @click="gotoWord('prev')">&lt;&mdash;</div>
     <div @click="gotoWord('next')">&mdash;&gt;</div>
@@ -32,14 +47,13 @@ export default {
     }
   },
   created() {
-    // eslint-disable-next-line
-    console.log("We're in the component");
     this.currentWordOfModel = this.currentWord == undefined ? this.words[0] : this.currentWord;
     var wordData = "";
 
     this.words.forEach(element => {
       wordData += element + "\n"
-      this.wordsModel[element] = element == 'schatz' ? {'wordart': 'substantiv'} : {'wordart': 'verb'}
+      this.$set(this.wordsModel, element, element == 'schatz' ? {'wordart': 'substantiv'} : {'wordart': 'verb'})
+      //this.wordsModel[element] = element == 
     });
     this.wordsList = wordData;
   },
@@ -53,11 +67,16 @@ export default {
   computed: {    
   },  
   methods: {
-    selectedWordArt: function(selectedWord, wordart) {
-      
-      return {'selected': this.wordsModel[selectedWord]['wordart'] == wordart};
+    selectedWordArt: function(wordart) {      
+      return {'selected': this.wordsModel[this.currentWordOfModel]['wordart'] == wordart};
     },
-    'gotoWord': function(direction) {
+    selectWordArt: function(event) {
+      ///console.log(event.currentTarget.id)
+      this.wordsModel[this.currentWordOfModel]['wordart'] = event.currentTarget.id;
+      //console.log(this.wordsModel[this.currentWordOfModel]);
+      //this.$set(this.wordsModel[this.currentWordOfModel], 'wordart', event.currentTarget.id)
+    },
+    gotoWord: function(direction) {
       var word = null;
       var wordCount = this.words.length;
 

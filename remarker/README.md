@@ -27,3 +27,21 @@ yarn run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+Model of models (example):
+
+```
+[
+    {
+        originalWord: 'verstehe',
+        normalizedWord: 'verstehen',
+        pos: 'verb',
+    },
+    {
+        originalWord: 'strand'
+        normalizedWord: 'strand',
+        pos: 'verb',
+        gender: 'male'
+    },...
+]
+```

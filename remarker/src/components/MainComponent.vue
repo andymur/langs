@@ -43,17 +43,20 @@ export default {
       type: Array
     },
     currentWord: {
-      type: String
+      type: Object
     }
   },
   created() {
-    this.currentWordOfModel = this.currentWord == undefined ? this.words[0] : this.currentWord;
+    console.log(this.words[0])
+    this.currentWordOfModel = this.currentWord == undefined 
+      ? this.words[0]['originalWord'] 
+      : this.currentWord['originalWord'];
+    
     var wordData = "";
 
     this.words.forEach(element => {
-      wordData += element + "\n"
-      this.$set(this.wordsModel, element, element == 'schatz' ? {'wordart': 'substantiv'} : {'wordart': 'verb'})
-      //this.wordsModel[element] = element == 
+      wordData += element['originalWord'] + "\n"
+      this.$set(this.wordsModel, element['originalWord'], {'wordart': element['pos']})
     });
     this.wordsList = wordData;
   },

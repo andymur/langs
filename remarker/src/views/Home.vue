@@ -75,7 +75,7 @@
         created: function() {
             // eslint-disable-next-line
             console.log("Hey there...");
-            this.currentWord = this.words[0]
+            this.currentWord = this.words[0]['originalWord']
         },
     }
 </script>

@@ -43,7 +43,7 @@ export default {
       type: Array
     },
     currentWord: {
-      type: Object
+      type: String
     }
   },
   created() {
@@ -51,7 +51,7 @@ export default {
     console.log(this.words[0])
     this.currentWordOfModel = this.currentWord == undefined 
       ? this.words[0]['originalWord'] 
-      : this.currentWord['originalWord'];
+      : this.currentWord;
     
     var wordData = "";
 
@@ -75,18 +75,26 @@ export default {
       return {'selected': this.wordsModel[this.currentWordOfModel]['wordart'] == wordart};
     },
     selectWordArt: function(event) {
-      ///console.log(event.currentTarget.id)
       this.wordsModel[this.currentWordOfModel]['wordart'] = event.currentTarget.id;
       this.$emit('pos-change', {'word': this.currentWordOfModel, 'pos': event.currentTarget.id});
-      //console.log(this.wordsModel[this.currentWordOfModel]);
-      //this.$set(this.wordsModel[this.currentWordOfModel], 'wordart', event.currentTarget.id)
     },
     gotoWord: function(direction) {
       var word = null;
       var wordCount = this.words.length;
 
-      var currentIndex = this.words.indexOf(this.currentWord);
+      //find a way...how to extract to the small specific method
       
+      // method start
+      var currentIndex = -1;
+
+      for (var i = 0; i < wordCount; i++) {
+        if (this.words[i]['originalWord'] == this.currentWord) {
+          currentIndex = i;
+          break;
+        }
+      }
+      // method end
+      //console.log('current word index: ' + currentIndex + ' ' + this.cu);
       if (currentIndex == -1) {
         return;
       }
@@ -102,8 +110,8 @@ export default {
         }
         word = this.words[currentIndex - 1];
       }
-      this.currentWordOfModel = word;
-      this.$router.push({ name: 'word-edit', params: { word: word }})
+      this.currentWordOfModel = word['originalWord'];
+      this.$router.push({ name: 'word-edit', params: { word: word['originalWord'] }})
     }
   }  
 }

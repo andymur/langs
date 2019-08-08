@@ -47,6 +47,7 @@ export default {
     }
   },
   created() {
+    // eslint-disable-next-line
     console.log(this.words[0])
     this.currentWordOfModel = this.currentWord == undefined 
       ? this.words[0]['originalWord'] 
@@ -76,6 +77,7 @@ export default {
     selectWordArt: function(event) {
       ///console.log(event.currentTarget.id)
       this.wordsModel[this.currentWordOfModel]['wordart'] = event.currentTarget.id;
+      this.$emit('pos-change', {'word': this.currentWordOfModel, 'pos': event.currentTarget.id});
       //console.log(this.wordsModel[this.currentWordOfModel]);
       //this.$set(this.wordsModel[this.currentWordOfModel], 'wordart', event.currentTarget.id)
     },

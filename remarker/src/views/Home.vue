@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <main-component :words="words" :currentWord="currentWord"/>
+    <main-component :words="words" :currentWord="currentWord" v-on:pos-change="posChange"/>
     <pre>
         {{words}}
     </pre>
@@ -31,7 +31,20 @@
         name: "home",
         components: {
             'main-component': Main
-        },                
+        },        
+        methods: {
+            posChange: function(obj) {
+                // eslint-disable-next-line
+                console.log(obj);
+                this.words.forEach(
+                    word => {
+                        if (word['originalWord'] == obj['word']) {
+                            word['pos'] = obj['pos']
+                        }
+                    }
+                )
+            }
+        },
         data: function () {
             return {
                 words: [
